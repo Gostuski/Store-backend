@@ -6,11 +6,12 @@ const User = require('../models/User');
 
 module.exports = function(passport) {
   const authenticate = (email, password, done) => {
+
     User.findOne({ email: email })
       .then(user => {
-        if (!user)
+        if (!user) {
           return done(null, false, { message: 'Email is not registered.' });
-        //Match password
+        }
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
@@ -25,13 +26,14 @@ module.exports = function(passport) {
   passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 
   passport.serializeUser((user, done) => {
+    console.log("serijalizujem", user.id);
+
     done(null, user.id);
   });
-  
+
   passport.deserializeUser((id, done) => {
     User.findById(id, (err, user) => {
       done(err, user);
-    }); 
+    });
   });
 };
-

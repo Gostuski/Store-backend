@@ -1,9 +1,11 @@
 module.exports = {
-    ensureAuthenticated : function(req, res, nest){
-        if(req.isAuhenticated){
-            return next();
+
+    loggedIn : function (req, res, next) {
+        if (req.user) {
+            next();
+        } else {
+            res.redirect('users/login');
         }
-        //Flash to login
-        res.redirect('/users/login');
     }
+
 }
