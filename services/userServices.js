@@ -9,7 +9,8 @@ module.exports = {
   logIn,
   signUp,
   logOut,
-  myPosts
+  myPosts,
+  deletePost
 };
 
 async function signUp(req, res) {
@@ -34,7 +35,7 @@ async function signUp(req, res) {
       .then(user => {
         if (user) {
           err.push({ msg: 'Email is alredy registred' });
-          res.send(err);
+          res.send({ msg: 'Email is alredy registred' });
         } else {
           const newUser = new User({
             name,
@@ -104,7 +105,14 @@ async function myPosts(req, res) {
     res.send(posts);
   });
 }
+async function deletePost(req, res){
+  
+  Post.findByIdAndRemove({_id : req.params.id}, (err, document) => {
+    if(err) res.send({msg : 'Post not found.'});
+    console.log(document);
+  });
 
+}
 async function post(req, res) {
   const post = new Post({
     post: req.body.post,

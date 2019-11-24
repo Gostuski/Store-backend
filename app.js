@@ -3,9 +3,15 @@ const mongoose = require('mongoose');
 const app = express();
 const router = require('./routes');
 const cors = require('cors');
+const path = require('path');
+const history = require('connect-history-api-fallback');
+
+const staticMiddleware = express.static(path.join(__dirname, 'dist'));
+app.use(staticMiddleware);
+app.use(history());
+app.use(staticMiddleware);
 
 app.use(cors());
-// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -22,7 +28,7 @@ mongoose
   .then(() => console.log('Mongo db connected'))
   .catch(() => console.log('Error connecting to mongo db'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 app.listen(PORT, console.log(`Server starte on port : ${PORT}`));
 

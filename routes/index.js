@@ -28,12 +28,13 @@ router.post('/login', user.logIn);
 // Logout handle
 router.get('/logout', authenticated, user.logOut);
 
-router.get('/posts', authenticated, user.allPosts);
+router.get('/allposts', authenticated, user.allPosts);
 
-router.get('/myposts', authenticated, user.myPosts);
+router.get('/userposts', authenticated, user.myPosts);
 
 // Post post
-router.post('/posts', authenticated, user.post);
+router.post('/allposts', authenticated, user.post);
 
+router.delete('/posts/:id', authenticated, user.deletePost);
 
 module.exports = router;
