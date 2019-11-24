@@ -6,10 +6,11 @@ const User = require('../models/User');
 
 module.exports = function(passport) {
   const authenticate = (email, password, done) => {
-
+    
     User.findOne({ email: email })
       .then(user => {
         if (!user) {
+          console.log('kara');
           return done(null, false, { message: 'Email is not registered.' });
         }
         bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -26,8 +27,6 @@ module.exports = function(passport) {
   passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
 
   passport.serializeUser((user, done) => {
-    console.log("serijalizujem", user.id);
-
     done(null, user.id);
   });
 

@@ -3,6 +3,7 @@ var Float = require('mongoose-float').loadType(mongoose);
 
 
 const PostSchema = new mongoose.Schema({
+  email:String,
   post: String,
   price: { type: Float},
   createTime: { type: Date, default: Date.now },

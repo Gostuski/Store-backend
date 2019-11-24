@@ -1,35 +1,39 @@
 const express = require('express');
 
 const router = express.Router();
-const { loggedIn } = require('../config/auth');
+const { authenticated } = require('../config/auth');
 
-// // signup route
-// router.post('/signup', val.user.signup, user.signup);
+const user = require('../services/userServices');
 
-// // login route
-// router.post('/login', val.user.loginMobile, user.login);
+router.get('/', authenticated, user.allPosts);
 
-// // home route
-// router.get('/tweets', auth.isAuthc, user.listTweets);
-
-// // profile route
-// router.get('/profile/:id', auth.isAuthc, user.myTweets);
-
-// // get profile route
-// router.get('/user', auth.isAuthc, user.myProfile);
-
-// // tweet route
-// router.post('/tweet', auth.isAuthc, val.user.tweet, user.tweet);
-
-// // retweet route
-// router.post('/retweet', auth.isAuthc, val.user.tweetId, user.retweet);
-
-router.get('/', loggedIn, (req, res) => {
-  res.send('Welcome');
+// Login route
+router.get('/login', (req, res) => {
+  //TODO login page
+  res.send('Login');
 });
 
-// router.get('/homepage', loggedIn, (req, res) => {
-//   res.send('homepage');
-// });
+// Register route
+router.get('/register', (req, res) => {
+  //TODO register page 
+  res.send('Register');
+});
+
+// Register handle
+router.post('/register', user.signUp);
+
+// Loging handle
+router.post('/login', user.logIn);
+
+// Logout handle
+router.get('/logout', authenticated, user.logOut);
+
+router.get('/posts', authenticated, user.allPosts);
+
+router.get('/myposts', authenticated, user.myPosts);
+
+// Post post
+router.post('/posts', authenticated, user.post);
+
 
 module.exports = router;
